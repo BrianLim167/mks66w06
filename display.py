@@ -177,13 +177,13 @@ class PPMGrid(object):
             elif ( cmd[i] == "clear" ):
                 e = Matrix(0,4)
             elif ( cmd[i] == "display" ):
+                self.clear()
                 self.draw_lines(e, color)
                 self.display()
-                self = PPMGrid(self.width, self.height)
             elif ( cmd[i] == "save" ):
+                self.clear()
                 self.draw_lines(e, color)
                 self.save_extension(args[0])
-                self = PPMGrid(self.width, self.height)
             elif ( cmd[i] == "quit" ):
                 return
             elif ( cmd[i] == "circle" ):
