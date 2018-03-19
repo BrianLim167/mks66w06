@@ -171,4 +171,7 @@ class Matrix(object):
             m.add_point(x,y,0)
             t += step
         self.append(m)
+
+    def add_box( self, x, y, z, width, height, depth ):
+        pass
         

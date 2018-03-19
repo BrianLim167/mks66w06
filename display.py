@@ -33,9 +33,22 @@ class PPMGrid(object):
 
     def __setitem__(self, i, val):
         self.screen[i] = val
+        return self.screen[i]
 
     def __len__(self):
         return len(self.screen)
+
+    def __str__(self):
+        ppm = 'P3\n' + str(len(self[0])) +' '+ str(len(self)) +' '+ str(PPMGrid.MAX_COLOR) +'\n'
+        for y in range( len(self) ):
+            row = ''
+            for x in range( len(self[y]) ):
+                pixel = self[y][x]
+                row+= str( pixel[ PPMGrid.RED ] ) + ' '
+                row+= str( pixel[ PPMGrid.GREEN ] ) + ' '
+                row+= str( pixel[ PPMGrid.BLUE ] ) + ' '
+            ppm+= row + '\n'
+        return ppm
 
     def plot( self, color, x, y ):
         (x,y) = (int(x),int(y))
@@ -50,16 +63,7 @@ class PPMGrid(object):
 
     def save_ppm( self, fname ):
         f = open( fname, 'w' )
-        ppm = 'P3\n' + str(len(self[0])) +' '+ str(len(self)) +' '+ str(PPMGrid.MAX_COLOR) +'\n'
-        for y in range( len(self) ):
-            row = ''
-            for x in range( len(self[y]) ):
-                pixel = self[y][x]
-                row+= str( pixel[ PPMGrid.RED ] ) + ' '
-                row+= str( pixel[ PPMGrid.GREEN ] ) + ' '
-                row+= str( pixel[ PPMGrid.BLUE ] ) + ' '
-            ppm+= row + '\n'
-        f.write( ppm )
+        f.write( str(self) )
         f.close()
 
     def save_extension( self, fname ):
