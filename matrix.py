@@ -131,9 +131,13 @@ class Matrix(object):
         if ( isinstance(val, Matrix) ):
             for c in range(val.cols):
                 self.append(val[c])
+            return
 
     def print( self ):
         print(self)
+
+    def __arghandler( *func ):
+        pass
 
     def add_edge( self, x0, y0, z0, x1, y1, z1 ):
         self.add_point(x0,y0,z0)
