@@ -147,6 +147,7 @@ class PPMGrid(object):
     ############################################################################
     # transform
     # curves
+    # 3d
     ############################################################################
     def parse_file( self, fname, color ):
         fopen = open(fname,'r')
@@ -199,5 +200,14 @@ class PPMGrid(object):
                             float(args[4]),float(args[5]),
                             float(args[6]),float(args[7]),
                             0.001,cmd[i])
+            elif ( cmd[i] == "box" ):
+                e.add_box(float(args[0]),float(args[1]),float(args[2]),
+                          float(args[3]),float(args[4]),float(args[5]))
+            elif ( cmd[i] == "sphere" ):
+                e.add_sphere(float(args[0]),float(args[1]),float(args[2]),
+                          float(args[3]))
+            elif ( cmd[i] == "torus" ):
+                e.add_torus(float(args[0]),float(args[1]),float(args[2]),
+                          float(args[3]),float(args[4]))
         
 

@@ -146,15 +146,19 @@ class Matrix(object):
     def add_point( self, x, y, z=0 ):
         self.append([x,y,z,1])
 
-    def add_circle( self, cx, cy, cz, r, step=0.001 ):
+    def add_circle( self, cx, cy, cz, r, step=0.001, connect=True ):
         t = 0
         m = Matrix(0,4)
         while ( t <= 1 ):
             a = math.radians(360*t)
             m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
             a = math.radians(360*(t+step))
-            m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
+            if ( connect ):
+                m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
             t += step
+        if ( not connect ):
+            a = math.radians(360*t)
+            m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
         self.append(m)
 
     def add_curve( self, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
@@ -177,5 +181,85 @@ class Matrix(object):
         self.append(m)
 
     def add_box( self, x, y, z, width, height, depth ):
-        pass
+        a, b, c = x+width, y-height, z-depth
+
+        self.add_point(x,y,z)
+        self.add_point(a,y,z)
+
+        self.add_point(a,y,z)
+        self.add_point(a,b,z)
+
+        self.add_point(a,b,z)
+        self.add_point(x,b,z)
+
+        self.add_point(x,b,z)
+        self.add_point(x,y,z)
+
+        
+        self.add_point(x,y,c)
+        self.add_point(a,y,c)
+
+        self.add_point(a,y,c)
+        self.add_point(a,b,c)
+
+        self.add_point(a,b,c)
+        self.add_point(x,b,c)
+
+        self.add_point(x,b,c)
+        self.add_point(x,y,c)
+
+
+        self.add_point(x,y,z)
+        self.add_point(x,y,c)
+        
+        self.add_point(a,y,z)
+        self.add_point(a,y,c)
+        
+        self.add_point(a,b,z)
+        self.add_point(a,b,c)
+        
+        self.add_point(x,b,z)
+        self.add_point(x,b,c)
+
+    def add_sphere( self, cx, cy, cz, r, step=0.02 ):
+        m = Matrix.sphere(cx,cy,cz, r, step)
+        for i in range(m.cols):
+            self.append(m[i])
+            n = m[i].copy()
+            n[2] += 1
+            self.append(n)
+
+    @staticmethod
+    def sphere( cx, cy, cz, r, step=0.02 ):
+        m = Matrix(0,4)
+        t = 0
+        rot = Matrix.roty(360 * step)
+        while ( t <= 1 ):
+            m.add_circle(0,0,0, r, step, False)
+            m *= rot
+            t += step
+        m *= Matrix.mover(cx, cy, cz)
+        return m
+
+    def add_torus( self, cx, cy, cz, r, step=0.02 ):
+        m = Matrix.torus(cx,cy,cz, r, step)
+        for i in range(m.cols):
+            self.append(m[i])
+            n = m[i].copy()
+            n[2] += 1
+            self.append(n)
+
+    @staticmethod
+    def torus( cx, cy, cz, r0, r1, step=0.02 ):
+        m = Matrix(0,4)
+        t = 0
+        rot = Matrix.roty(360 * step)
+        while ( t < 1 ):
+            m.add_circle(r1,0,0, r0, step, False)
+            m *= rot
+            t += step
+        m *= Matrix.rotx(90)
+        m *= Matrix.mover(cx, cy, cz)
+        return m
+            
         
