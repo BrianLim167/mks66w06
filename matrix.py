@@ -41,6 +41,7 @@ class Matrix(object):
     @staticmethod
     def rotx(a):
         m = Matrix.ident(4)
+        a = math.radians(a)
         m[1][1] = math.cos(a)
         m[1][2] = math.sin(a)
         m[2][1] = -math.sin(a)
@@ -50,6 +51,7 @@ class Matrix(object):
     @staticmethod
     def roty(a):
         m = Matrix.ident(4)
+        a = math.radians(a)
         m[2][2] = math.cos(a)
         m[2][0] = math.sin(a)
         m[0][2] = -math.sin(a)
@@ -59,6 +61,7 @@ class Matrix(object):
     @staticmethod
     def rotz(a):
         m = Matrix.ident(4)
+        a = math.radians(a)
         m[0][0] = math.cos(a)
         m[0][1] = math.sin(a)
         m[1][0] = -math.sin(a)

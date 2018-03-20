@@ -172,11 +172,11 @@ class PPMGrid(object):
                 t *= Matrix.mover(float(args[0]),float(args[1]),float(args[2]))
             elif ( cmd[i] == "rotate" ):
                 if ( args[0] == 'x' ):
-                    t *= Matrix.rotx(math.radians(float(args[1])))
+                    t *= Matrix.rotx(float(args[1]))
                 elif ( args[0] == 'y' ):
-                    t *= Matrix.roty(math.radians(float(args[1])))
+                    t *= Matrix.roty(float(args[1]))
                 elif ( args[0] == 'z' ):
-                    t *= Matrix.rotz(math.radians(float(args[1])))
+                    t *= Matrix.rotz(float(args[1]))
             elif ( cmd[i] == "apply" ):
                 e *= t
             elif ( cmd[i] == "clear" ):
